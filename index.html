@@ -16,36 +16,67 @@
       <button data-tab="rules" class="tab active">Rules</button>
       <button data-tab="tracker" class="tab">Track Game</button>
       <button data-tab="scenarios" class="tab">Scenarios</button>
+      <button data-tab="keywords" class="tab">Keywords</button>
     </nav>
 
     <!-- Rules tab -->
     <section id="tab-rules" class="tab-content active">
       <h2>Rules Reference</h2>
       <p class="hint">
-        Use this as a quick-reference cheat sheet. Tap a link for full rules in the official web app.
+        Quick reminders only. For full, up-to-date rules and exact wording, use the official Halo: Flashpoint web app and rulebook.[web:21][web:28][web:35]
       </p>
 
       <div class="card">
-        <h3>Movement & Cover</h3>
+        <h3>Turn Breakdown (overview)</h3>
+        <ol>
+          <li><strong>Setup for Round</strong> – Resolve any start‑of‑round effects and ensure command dice are rolled and available.[web:16][web:19][web:45]</li>
+          <li><strong>Alternate Activations</strong> – Players take turns activating one model or fireteam at a time, performing actions such as move, shoot, fight, or special actions.[web:19][web:43]</li>
+          <li><strong>Actions & Tests</strong> – Each activation spends short/long actions, then resolves any required Ranged, Fight, or Survive tests with dice.[web:19][web:42]</li>
+          <li><strong>End of Round</strong> – Once all eligible models have activated, check the mission for scoring, update VP, resolve end‑of‑round effects, then advance to the next round.[web:16][web:42]</li>
+        </ol>
+        <p class="hint">
+          Use the Game Tracker tab to track round, VP and key states as you go.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Dice Basics</h3>
         <ul>
-          <li>Check line of sight from model to target model.</li>
-          <li>Cover applies when target is obscured by terrain or models.</li>
-          <li>Remember modifiers from elevation and intervening terrain.</li>
+          <li>Most tests roll multiple D8; each die that meets or beats a target number counts as a success.[web:16][web:35][web:42]</li>
+          <li>Rolling an 8 is a success and usually grants an extra die (“exploding 8”), which can chain if you roll more 8s.[web:16][web:35][web:37]</li>
+          <li>Ranged and Survive tests are commonly written as “3 Dice Ranged Test (X)” and “3 Dice Survive Test (X)”, meaning you roll 3 dice plus modifiers and compare successes.[web:16][web:35][web:42]</li>
         </ul>
       </div>
 
       <div class="card">
-        <h3>Objectives & Scoring</h3>
+        <h3>Command Dice Icons (summary)</h3>
         <ul>
-          <li>Score at the end of each round based on mission conditions.</li>
-          <li>Clearly mark who controls each objective as states on the tracker.</li>
+          <li>Command dice are rolled at the start of each round; each face shows a symbol you can spend that round to modify actions.[web:40][web:45]</li>
+          <li>Some symbols add extra dice to a Ranged, Fight or Survive test; you must decide how many to spend before rolling.[web:40][web:45]</li>
+          <li>Other symbols grant extra or upgraded actions (e.g. free move/assault‑style actions) depending on the symbol and rules.[web:19][web:40][web:45]</li>
         </ul>
+        <p class="hint">
+          Use this to remember that symbols are spent before rolling and are limited per round; check the official reference for exact icon names and effects.
+        </p>
       </div>
 
       <div class="card">
-        <h3>Links to official rules</h3>
+        <h3>Dice Modifiers & Positioning</h3>
+        <ul>
+          <li><strong>Clear Shot / No Obstruction</strong> – If the target is clearly visible, attacks usually gain extra dice.[web:16][web:42]</li>
+          <li><strong>Elevated Fire</strong> – Shooting from a higher cube often grants +1 die in Ranged tests.[web:16][web:37][web:42]</li>
+          <li><strong>Cover</strong> – Targets behind terrain gain defensive benefits; this often adds dice to Survive tests or cancels attack successes.[web:16][web:37][web:42]</li>
+          <li><strong>Close Assault / Crowded Cubes</strong> – Being in the same cube as enemies or friends can give bonuses or penalties depending on the situation and weapons.[web:16][web:41][web:42]</li>
+        </ul>
+        <p class="hint">
+          Combine these with command dice to quickly estimate how many dice to roll before an attack or defense.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Official Rules Links</h3>
         <p>
-          Open the official web app for full rules, latest updates, and points.
+          Open the official web app for full rules, keywords, missions and updates.[web:21][web:23]
         </p>
         <ul>
           <li>
@@ -56,6 +87,11 @@
           <li>
             <a href="https://haloflashpoint.manticgames.com/the-app/" target="_blank" rel="noopener">
               Halo: Flashpoint Web App
+            </a>
+          </li>
+          <li>
+            <a href="https://www.halopedia.org/Halo:_Flashpoint" target="_blank" rel="noopener">
+              Halopedia – Halo: Flashpoint overview
             </a>
           </li>
         </ul>
@@ -115,7 +151,7 @@
       <section class="card">
         <h3>States</h3>
         <p class="hint">
-          Use these toggles during a round (e.g. to mark activated fireteams or objectives).
+          Use these toggles during a round (e.g. to mark activated fireteams, objectives held, special conditions).
         </p>
         <div id="state-list" class="state-list">
           <!-- Items added here -->
@@ -132,7 +168,7 @@
     <section id="tab-scenarios" class="tab-content">
       <h2>Scenarios & Notes</h2>
       <p class="hint">
-        Keep short notes for your favourite missions or custom modes.
+        Keep short notes for your favourite missions or custom modes.[web:27][web:29]
       </p>
 
       <section class="card">
@@ -149,9 +185,49 @@
       <section class="card">
         <h3>Scenario Notes</h3>
         <select id="scenario-select"></select>
-        <textarea id="scenario-notes" rows="6" placeholder="Deployment zones, objective layout, special rules, etc."></textarea>
+        <textarea id="scenario-notes" rows="6" placeholder="Deployment, objectives, special rules, etc."></textarea>
         <button type="button" id="save-scenario-notes">Save Notes</button>
       </section>
+    </section>
+
+    <!-- Keywords tab -->
+    <section id="tab-keywords" class="tab-content">
+      <h2>Keyword Quick Reference</h2>
+      <p class="hint">
+        Short reminders only; always check the official rules if there is any doubt.[web:16][web:35][web:36]
+      </p>
+
+      <div class="card">
+        <h3>Common Keywords (examples)</h3>
+        <dl class="keyword-list">
+          <dt>Explosive / Grenade</dt>
+          <dd>Often trigger additional tests (for example, Frag (n)) after a hit; nearby models may make Survive tests with limited modifiers or rerolls.[web:16][web:36][web:44]</dd>
+
+          <dt>Frag (n)</dt>
+          <dd>After a successful hit, roll (n) dice for attack strength, then models in the target area make Survive tests; damage is based on the difference in successes.[web:16][web:36][web:44]</dd>
+
+          <dt>High Ground</dt>
+          <dd>Attacker in an elevated cube typically gains an extra die to Ranged tests against lower targets.[web:16][web:37][web:42]</dd>
+
+          <dt>Cover</dt>
+          <dd>Target obscured by terrain/models gains a defensive benefit; may add dice to Survive tests or cancel attack successes.[web:16][web:37][web:42]</dd>
+
+          <dt>Crouch / Defensive Posture</dt>
+          <dd>Grants a defensive bonus, often via extra Survive dice or modifiers when the model is shot at.[web:16][web:43]</dd>
+
+          <dt>Melee / Brawler‑style keywords</dt>
+          <dd>Provide bonuses in Fight tests, sometimes based on friendly models in the same cube or weapon traits.[web:16][web:35][web:41]</dd>
+        </dl>
+      </div>
+
+      <div class="card">
+        <h3>Your Own Keywords</h3>
+        <p class="hint">
+          Use this space for house rules or reminders specific to your group.
+        </p>
+        <textarea id="custom-keywords" rows="8" placeholder="Add your own keyword reminders here (e.g. faction traits, house rules)."></textarea>
+        <button type="button" id="save-custom-keywords">Save Notes</button>
+      </div>
     </section>
   </main>
 

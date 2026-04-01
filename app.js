@@ -14,6 +14,7 @@ const defaultState = {
     },
     selected: "King of the Hill",
   },
+  customKeywords: "",
 };
 
 let appState = loadState();
@@ -248,8 +249,31 @@ document
     saveState();
   });
 
+// ---- keywords (custom notes) ----
+const customKeywordsEl = document.getElementById("custom-keywords");
+
+function renderCustomKeywords() {
+  if (!customKeywordsEl) return;
+  customKeywordsEl.value = appState.customKeywords || "";
+}
+
+if (customKeywordsEl) {
+  customKeywordsEl.addEventListener("input", () => {
+    appState.customKeywords = customKeywordsEl.value;
+    saveState();
+  });
+
+  document
+    .getElementById("save-custom-keywords")
+    .addEventListener("click", () => {
+      appState.customKeywords = customKeywordsEl.value;
+      saveState();
+    });
+}
+
 // ---- initial render ----
 renderMeta();
 renderScores();
 renderStates();
 renderScenarios();
+renderCustomKeywords();

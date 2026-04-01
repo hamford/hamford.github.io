@@ -52,6 +52,7 @@ main {
   display: flex;
   gap: 8px;
   margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 
 .tab {
@@ -216,6 +217,23 @@ button.danger {
 .scenario-list li {
   padding: 4px 0;
   font-size: 0.9rem;
+}
+
+/* Keywords */
+
+.keyword-list {
+  margin: 0;
+}
+
+.keyword-list dt {
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.keyword-list dd {
+  margin: 0 0 4px 0;
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
 /* Helpers */
