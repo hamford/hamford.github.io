@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <title>Halo: Flashpoint Companion</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#020617" />
+
+  <!-- iOS-ish support -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -53,7 +61,7 @@
         <ul>
           <li>Command dice are rolled at the start of each round; each face shows a symbol you can spend that round to modify actions.[web:40][web:45]</li>
           <li>Some symbols add extra dice to a Ranged, Fight or Survive test; you must decide how many to spend before rolling.[web:40][web:45]</li>
-          <li>Other symbols grant extra or upgraded actions (e.g. free move/assault‑style actions) depending on the symbol and rules.[web:19][web:40][web:45]</li>
+          <li>Other symbols grant extra or upgraded actions (for example, additional moves or assaults) depending on the symbol and rules.[web:19][web:40][web:45]</li>
         </ul>
         <p class="hint">
           Use this to remember that symbols are spent before rolling and are limited per round; check the official reference for exact icon names and effects.
@@ -151,7 +159,7 @@
       <section class="card">
         <h3>States</h3>
         <p class="hint">
-          Use these toggles during a round (e.g. to mark activated fireteams, objectives held, special conditions).
+          Use these toggles during a round (for example, to mark activated fireteams, objectives held, special conditions).
         </p>
         <div id="state-list" class="state-list">
           <!-- Items added here -->
@@ -236,5 +244,14 @@
   </footer>
 
   <script src="app.js"></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .catch(err => console.error('SW registration failed', err));
+      });
+    }
+  </script>
 </body>
 </html>
