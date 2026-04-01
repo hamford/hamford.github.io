@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Halo: Flashpoint Companion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Halo: Flashpoint Companion</h1>
+  </header>
+
+  <main>
+    <nav class="tabs">
+      <button data-tab="rules" class="tab active">Rules</button>
+      <button data-tab="tracker" class="tab">Track Game</button>
+      <button data-tab="scenarios" class="tab">Scenarios</button>
+    </nav>
+
+    <!-- Rules tab -->
+    <section id="tab-rules" class="tab-content active">
+      <h2>Rules Reference</h2>
+      <p class="hint">
+        Use this as a quick-reference cheat sheet. Tap a link for full rules in the official web app.
+      </p>
+
+      <div class="card">
+        <h3>Movement & Cover</h3>
+        <ul>
+          <li>Check line of sight from model to target model.</li>
+          <li>Cover applies when target is obscured by terrain or models.</li>
+          <li>Remember modifiers from elevation and intervening terrain.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Objectives & Scoring</h3>
+        <ul>
+          <li>Score at the end of each round based on mission conditions.</li>
+          <li>Clearly mark who controls each objective as states on the tracker.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Links to official rules</h3>
+        <p>
+          Open the official web app for full rules, latest updates, and points.
+        </p>
+        <ul>
+          <li>
+            <a href="https://haloflashpoint.manticgames.com/the-app/halo-flashpoint-rules/" target="_blank" rel="noopener">
+              Core Rules (Official)
+            </a>
+          </li>
+          <li>
+            <a href="https://haloflashpoint.manticgames.com/the-app/" target="_blank" rel="noopener">
+              Halo: Flashpoint Web App
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Tracker tab -->
+    <section id="tab-tracker" class="tab-content">
+      <h2>Game Tracker</h2>
+      <form id="game-meta" class="card">
+        <div class="field-row">
+          <label>Player 1</label>
+          <input type="text" id="p1-name" placeholder="Player 1" />
+        </div>
+        <div class="field-row">
+          <label>Player 2</label>
+          <input type="text" id="p2-name" placeholder="Player 2" />
+        </div>
+        <div class="field-row">
+          <label>Mission</label>
+          <input type="text" id="mission" placeholder="Mission name" />
+        </div>
+        <button type="button" id="save-meta">Save Details</button>
+      </form>
+
+      <section class="card scoreboard">
+        <div class="round-counter">
+          <h3>Round</h3>
+          <div class="counter-display">
+            <button type="button" data-action="round-dec">−</button>
+            <span id="round-value">1</span>
+            <button type="button" data-action="round-inc">+</button>
+          </div>
+        </div>
+
+        <div class="scores">
+          <div class="score-block">
+            <h3 id="p1-label">Player 1</h3>
+            <div class="counter-display">
+              <button type="button" data-action="p1-dec">−</button>
+              <span id="p1-score">0</span>
+              <button type="button" data-action="p1-inc">+</button>
+            </div>
+          </div>
+          <div class="score-block">
+            <h3 id="p2-label">Player 2</h3>
+            <div class="counter-display">
+              <button type="button" data-action="p2-dec">−</button>
+              <span id="p2-score">0</span>
+              <button type="button" data-action="p2-inc">+</button>
+            </div>
+          </div>
+        </div>
+        <button type="button" id="reset-game" class="danger">Reset Game</button>
+      </section>
+
+      <section class="card">
+        <h3>States</h3>
+        <p class="hint">
+          Use these toggles during a round (e.g. to mark activated fireteams or objectives).
+        </p>
+        <div id="state-list" class="state-list">
+          <!-- Items added here -->
+        </div>
+        <div class="field-row">
+          <input type="text" id="new-state-name" placeholder="Add state (e.g. P1 Objective A)" />
+          <button type="button" id="add-state">Add</button>
+        </div>
+        <button type="button" id="clear-states">Clear All States</button>
+      </section>
+    </section>
+
+    <!-- Scenarios tab -->
+    <section id="tab-scenarios" class="tab-content">
+      <h2>Scenarios & Notes</h2>
+      <p class="hint">
+        Keep short notes for your favourite missions or custom modes.
+      </p>
+
+      <section class="card">
+        <h3>Scenario List</h3>
+        <ul id="scenario-list" class="scenario-list">
+          <!-- filled from JS -->
+        </ul>
+        <div class="field-row">
+          <input type="text" id="new-scenario-name" placeholder="Scenario name" />
+          <button type="button" id="add-scenario">Add</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Scenario Notes</h3>
+        <select id="scenario-select"></select>
+        <textarea id="scenario-notes" rows="6" placeholder="Deployment zones, objective layout, special rules, etc."></textarea>
+        <button type="button" id="save-scenario-notes">Save Notes</button>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <small>Unofficial helper tool for Halo: Flashpoint.</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

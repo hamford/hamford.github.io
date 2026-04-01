@@ -1,0 +1,233 @@
+:root {
+  --bg: #05060a;
+  --bg-alt: #111827;
+  --card: #111827;
+  --accent: #00d1ff;
+  --accent-soft: rgba(0, 209, 255, 0.15);
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --danger: #f97373;
+  --border: #1f2937;
+  --radius: 8px;
+  --spacing: 12px;
+  --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+  color: var(--text);
+}
+
+.topbar {
+  padding: 12px;
+  text-align: center;
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+}
+
+main {
+  padding: 10px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Tabs */
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.tab {
+  flex: 1;
+  padding: 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.tab.active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Cards */
+
+.card {
+  background: rgba(15, 23, 42, 0.92);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+/* Form elements */
+
+.field-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.field-row label {
+  flex: 0 0 80px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.field-row input,
+textarea,
+select {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: #020617;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+textarea {
+  width: 100%;
+  margin: 8px 0;
+}
+
+/* Buttons */
+
+button {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #0f172a;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+button:hover {
+  border-color: var(--accent);
+  cursor: pointer;
+}
+
+button.danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* Scoreboard */
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.round-counter,
+.scores {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.counter-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.counter-display span {
+  min-width: 32px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* State list */
+
+.state-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.state-pill {
+  padding: 4px 8px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: #020617;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.state-pill.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.state-pill button {
+  padding: 0 6px;
+  font-size: 0.8rem;
+}
+
+/* Scenarios */
+
+.scenario-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px 0;
+}
+
+.scenario-list li {
+  padding: 4px 0;
+  font-size: 0.9rem;
+}
+
+/* Helpers */
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+footer {
+  text-align: center;
+  padding: 12px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
