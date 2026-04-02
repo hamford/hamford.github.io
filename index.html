@@ -40,6 +40,16 @@
           <li><strong>Roll command dice</strong> – Each player rolls 2 command dice plus an additional per <i>Tactician</i> in their fireteam.</li>
           <li><strong>Alternate Activations</strong> – Players take turns activating one model of their fireteam at a time, performing either two short actions or one long action. They cannot perform the same action twice unless they choose to activate one of their command dice. Once a player has performed an action with a command die, they may not perform that same action again using another command die. At the end of their activation, the player places a green activation token by the model, and the next player proceeds to take their turn. Once all models have activated, the round ends.</li>
         </ol>
+        <h3>Actions list</h3>
+        <ul>
+          <li><strong>Advance</strong> <i>(short)</i></li>
+          <li><strong>Shoot</strong> <i>(short)</i></li>
+          <li><strong>Crouch</strong> <i>(short)</i></li>
+          <li><strong>Stand up</strong> <i>(short)</i></li>
+          <li><strong>Sprint</strong> <i>(long)</i></li>
+          <li><strong>Assault</strong> <i>(long, free if moved into cube with an enemy)</i></li>
+
+        </ul>
         <p class="hint">
           Use the Game Tracker tab to track round, VP and key states as you go.
         </p>
@@ -52,56 +62,48 @@
           <li><strong>Shoot <i>-short</i></strong> - To take this action, the model must be equiped with a weapon which can target an enemy model within the <i>range</i> stat, have a line of sight to the target model, and cannot be in the same cube as an enemy model. The player shooting takes 3 D8 and can add dice based on the following:
           <ul>
             <li>Clear shot <strong> (+2 dice)</strong> - completely unobstructed view of the target model, including the base</li>
-            <li>High gound <strong> (+1 dice)</strong> - on a higher level than the target</li>
-            <li>Crouched <strong> (+1 dice)</strong> - your model has performed a crouch action previously and has the crouch token</li>
+            <li>High gound <strong> (+1 die)</strong> - on a higher level than the target</li>
+            <li>Crouched <strong> (+1 die)</strong> - your model has performed a crouch action previously and has the crouch token</li>
             <li>Friendly fire <strong> (-2 dice)</strong> - friendly models are in the same cube as the target model</li>
-          </ul> </li>
-        </ul>
-      </div>
+          </ul>
+          Dice which have a value equal or higher than the RA stat are successes.
+          Any dice with a value of 8 are counted as <strong>headshots</strong>, allowing the player to re-roll one die per 8 rolled. If another 8 is rolled, the player is able to re-roll another die.
 
-      <div class="card">
-        <h3>Dice Basics</h3>
-        <ul>
-          <li>Most tests roll multiple D8; each die that meets or beats a target number counts as a success.[web:16][web:35][web:42]</li>
-          <li>Rolling an 8 is a success and usually grants an extra die (“exploding 8”), which can chain if you roll more 8s.[web:16][web:35][web:37]</li>
-          <li>Ranged and Survive tests are commonly written as “3 Dice Ranged Test (X)” and “3 Dice Survive Test (X)”, meaning you roll 3 dice plus modifiers and compare successes.[web:16][web:35][web:42]</li>
+          The defending player then rolls 3 dice for their survive test, and can add <strong>one additional die</strong> if they are crouched. Every die equal to or above the SV stat are successful armour saves, and counter any successful hits from the attacker. Damage taken is equal to the number of successful hits from the attacker which cannot be saved. </li>
+          <li><strong>Crouch <i>-short</i></strong> - The model may move within the cube it is in, then mark it with a crouch token. The crouch token stays in place until the model moves.</li>
+          <li><strong>Stand up <i>-short</i></strong> - A <i>pinned</i> model must do this as their first action of their activation, if it acts at all. If it stands up in a cube with an enemy model, the opossing player may take a free assault action with the <i>pinned</i> modifier.</li>
+          <li><strong>Sprint <i>-long</i></strong> - The model follows the <i>advance</i> rules, however may move up to the second SP stat. </li>
+          <li><strong>Assault <i>-long, free if moved into a cube with an enemy</i></strong> The model must be in the same cube as an enemy model to perform an assault action. If the model moved into the cube using an <i>advance</i> or <i>sprint</i> action, they may take the assault action for free. The attacking player rolls 3 D8 and modifies as follows:
+          <ul>
+            <li>Moved into the cube on this turn <strong>(+2 dice)</strong></li>
+            <li>Another friendly model in the same cube <strong>(+1 die)</strong></li>
+            <li>The target model is injured <strong>(+1 die)</strong></li>
+            <li>The target model is pinned <strong>(+1 die)</strong></li>
+          </ul>
+          Dice with have a value equal or higher than the FI stat are successes. 
+          The defending player then rolls 3 dice with the following modifiers:
+          <ul>
+            <li>Another friendly model in the same cube <strong>(+1 die)</strong></li>
+            <li>The opposing model is injured <strong>(+1 die)</strong></li>
+          </ul>
+          Every die equal to or above the SV stat are successful armour saves, and counter any successful hits from the attacker. Damage taken is equal to the number of successful hits from the attacker which cannot be saved. </li>
         </ul>
-      </div>
-
-      <div class="card">
-        <h3>Command Dice Icons (summary)</h3>
-        <ul>
-          <li>Command dice are rolled at the start of each round; each face shows a symbol you can spend that round to modify actions.[web:40][web:45]</li>
-          <li>Some symbols add extra dice to a Ranged, Fight or Survive test; you must decide how many to spend before rolling.[web:40][web:45]</li>
-          <li>Other symbols grant extra or upgraded actions (for example, additional moves or assaults) depending on the symbol and rules.[web:19][web:40][web:45]</li>
-        </ul>
-        <p class="hint">
-          Use this to remember that symbols are spent before rolling and are limited per round; check the official reference for exact icon names and effects.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>Dice Modifiers & Positioning</h3>
-        <ul>
-          <li><strong>Clear Shot / No Obstruction</strong> – If the target is clearly visible, attacks usually gain extra dice.[web:16][web:42]</li>
-          <li><strong>Elevated Fire</strong> – Shooting from a higher cube often grants +1 die in Ranged tests.[web:16][web:37][web:42]</li>
-          <li><strong>Cover</strong> – Targets behind terrain gain defensive benefits; this often adds dice to Survive tests or cancels attack successes.[web:16][web:37][web:42]</li>
-          <li><strong>Close Assault / Crowded Cubes</strong> – Being in the same cube as enemies or friends can give bonuses or penalties depending on the situation and weapons.[web:16][web:41][web:42]</li>
-        </ul>
-        <p class="hint">
-          Combine these with command dice to quickly estimate how many dice to roll before an attack or defense.
-        </p>
       </div>
 
       <div class="card">
         <h3>Official Rules Links</h3>
         <p>
-          Open the official web app for full rules, keywords, missions and updates.[web:21][web:23]
+          Open the official web app for full rules, keywords, missions and updates.
         </p>
         <ul>
           <li>
             <a href="https://haloflashpoint.manticgames.com/the-app/halo-flashpoint-rules/" target="_blank" rel="noopener">
               Core Rules (Official)
+            </a>
+          </li>
+          <li>
+            <a href="https://www.orderofgamers.com/downloads/HaloFlashpoint_v2.3.pdf" target="_blank" rel="noopener">
+              PDF rule sheet
             </a>
           </li>
           <li>
