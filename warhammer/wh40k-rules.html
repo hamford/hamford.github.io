@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Warhammer 40,000 – 10th Edition Core Rules (Lite)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #0b1120;
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.18);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --radius: 10px;
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: radial-gradient(circle at top, #111827 0, #020617 50%, #000 100%);
+      color: var(--text);
+    }
+
+    header {
+      padding: 12px 14px;
+      text-align: center;
+      background: rgba(15, 23, 42, 0.98);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    header p {
+      margin: 2px 0 0;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    main {
+      padding: 10px;
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .pill--highlight {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin: 12px 4px 6px;
+    }
+
+    .card {
+      background: rgba(11, 17, 32, 0.98);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      cursor: pointer;
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(5, 46, 22, 0.95));
+    }
+
+    .card-header-main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .toggle-icon {
+      margin-left: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .card-body {
+      padding: 8px 10px 10px;
+      font-size: 0.85rem;
+    }
+
+    .label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-top: 6px;
+    }
+
+    .list {
+      margin: 4px 0 6px;
+      padding-left: 16px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .list li {
+      margin-bottom: 4px;
+    }
+
+    .keyword {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .inline-strong {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .hint {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    @media (min-width: 768px) {
+      .card-body {
+        font-size: 0.9rem;
+      }
+      .list {
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Warhammer 40,000 – 10th Edition</h1>
+    <p>Core rules quick reference – paraphrased from datacard.app, not a full rulebook.</p>
+  </header>
+
+  <main>
+    <div class="pill-row">
+      <span class="pill pill--highlight">Turn Sequence</span>
+      <span class="pill">Battle‑shock</span>
+      <span class="pill">Movement & Shooting</span>
+      <span class="pill">USRs & Stratagems</span>
+    </div>
+
+    <!-- Turn sequence -->
+    <div class="section-title">Turn Sequence</div>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Battle Round Overview</div>
+          <div class="card-subtitle">5 phases in each player turn</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <p>
+          A battle round has two turns, one for each player. Each turn follows this order:
+        </p>
+        <ol class="list">
+          <li><span class="inline-strong">1. Command:</span> Gain CP, resolve Command‑phase rules, take Battle‑shock tests, and determine objective control.</li>
+          <li><span class="inline-strong">2. Movement:</span> Each unit either moves normally, Advances or stays still; units in melee can Fall Back instead.</li>
+          <li><span class="inline-strong">3. Shooting:</span> Eligible units shoot one at a time, picking targets and resolving ranged attacks.</li>
+          <li><span class="inline-strong">4. Charge:</span> Units declare and roll charges to enter Engagement Range.</li>
+          <li><span class="inline-strong">5. Fight:</span> Units in melee fight, with Fights First units going before the rest.</li>
+        </ol>
+        <p class="hint">
+          Always finish a full phase for one player before moving on to the next.
+        </p>
+      </div>
+    </article>
+
+    <!-- Command phase -->
+    <div class="section-title">Command Phase</div>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">1. Command Points & Rules</div>
+          <div class="card-subtitle">CP and phase‑timed abilities</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <ul class="list">
+          <li><span class="inline-strong">Gain CP:</span> At the start of each player’s Command phase, both players gain 1CP.</li>
+          <li><span class="inline-strong">Command‑phase rules:</span> Resolve all abilities that say they happen “in your Command phase” now (buffs, healing, etc.).</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">2. Battle‑shock</div>
+          <div class="card-subtitle">Morale & objective control</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <p>
+          Units that are Below Half‑strength must test for Battle‑shock.
+        </p>
+        <ul class="list">
+          <li><span class="inline-strong">Who tests:</span> Any unit that has lost more than half its starting models, or half its wounds if it is a single‑model unit.</li>
+          <li><span class="inline-strong">Test:</span> Roll 2D6; if the result is equal to or above the unit’s Leadership, it passes. Otherwise, it is Battle‑shocked until your next Command phase.</li>
+        </ul>
+        <p class="label">Battle‑shocked units</p>
+        <ul class="list">
+          <li>OC becomes 0, so they cannot control objectives while the shock lasts.</li>
+          <li>You cannot use Stratagems on them.</li>
+          <li>If they Fall Back, they must take Desperate Escape tests.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">3. Controlling Objectives</div>
+          <div class="card-subtitle">Who holds the marker?</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <ul class="list">
+          <li><span class="inline-strong">Range:</span> A model is in range if it is within 3" horizontally and 5" vertically of the marker.</li>
+          <li><span class="inline-strong">Level of Control:</span> Sum the OC values of all your models in range; do the same for your opponent.</li>
+          <li><span class="inline-strong">Who controls:</span> The player with the higher total OC controls that objective; equal totals mean it’s contested.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Movement phase -->
+    <div class="section-title">Movement Phase</div>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">1. Moving Units</div>
+          <div class="card-subtitle">Normal, Advance, Fall Back, Stationary</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <p class="label">Movement options</p>
+        <ul class="list">
+          <li><span class="inline-strong">Normal Move:</span> Move each model up to its M value, staying out of Engagement Range (1") of enemies.</li>
+          <li><span class="inline-strong">Advance:</span> Move up to M + D6". You cannot enter Engagement Range, shoot, or charge this turn unless a rule allows it (e.g. <span class="keyword">[ASSAULT]</span> weapons).</li>
+          <li><span class="inline-strong">Remain Stationary:</span> The unit does not move; useful for Heavy weapons and some abilities.</li>
+          <li><span class="inline-strong">Fall Back:</span> Units in Engagement Range move up to M" to leave melee; they normally cannot shoot or charge this turn.</li>
+        </ul>
+
+        <p class="label">Desperate Escape (when Falling Back)</p>
+        <ul class="list">
+          <li>Models that move through enemy models (unless they are TITANIC/FLY) or are Battle‑shocked must roll a D6; on 1–2, one model from the unit is destroyed.</li>
+        </ul>
+
+        <p class="label">Terrain & Flying</p>
+        <ul class="list">
+          <li><span class="inline-strong">Low terrain (≤2"): </span>Move over it normally.</li>
+          <li><span class="inline-strong">Higher terrain:</span> You must measure movement up and down when climbing over.</li>
+          <li><span class="inline-strong">FLY:</span> Units with FLY can move over enemy models and terrain when making Normal, Advance or Fall Back moves; distance is measured through the air.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Transports</div>
+          <div class="card-subtitle">Embark, disembark, and destroyed transports</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <p class="label">Embarking</p>
+        <ul class="list">
+          <li>To embark, every model in the unit must end a Normal, Advance or Fall Back move within 3" of a friendly Transport.</li>
+          <li>You cannot embark and disembark in the same Movement phase.</li>
+        </ul>
+
+        <p class="label">Disembarking</p>
+        <ul class="list">
+          <li>Only units that started the phase embarked can disembark, and only if the Transport has not Advanced or Fallen Back.</li>
+          <li>When disembarking, set the unit up wholly within 3" of the Transport and not within Engagement Range of enemies.</li>
+          <li>If the unit disembarks before the Transport moves, it can act normally. If it disembarks after the Transport moves, it cannot move or charge this turn but can otherwise act normally.</li>
+        </ul>
+
+        <p class="label">When a Transport is destroyed</p>
+        <ul class="list">
+          <li>Each embarked model rolls a D6 and may suffer a mortal wound depending on how far it is placed from the wreck; surviving models disembark and the unit is Battle‑shocked.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Reinforcements & Reserves</div>
+          <div class="card-subtitle">Bringing units in later</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <p class="label">Reserves</p>
+        <ul class="list">
+          <li>Units can start the game off the battlefield instead of being deployed normally.</li>
+          <li>When they arrive, they must be set up according to their rules, measuring distances horizontally from enemy units.</li>
+          <li>They count as having made a Normal Move in the turn they are set up.</li>
+          <li>Any Reserve unit not on the battlefield by the end of the game counts as destroyed.</li>
+        </ul>
+
+        <p class="label">Strategic Reserves</p>
+        <ul class="list">
+          <li>Only up to 25% of your army’s points can be put into Strategic Reserves, and they cannot include Fortifications.</li>
+          <li>From battle round 2, they can arrive from the table edges, following the distance and deployment restrictions.</li>
+          <li>They cannot be set up within 9" of enemy models.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Shooting phase -->
+    <div class="section-title">Shooting Phase</div>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Shooting Sequence</div>
+          <div class="card-subtitle">Who shoots, at what, and how</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <p>
+          Resolve shooting one unit at a time:
+        </p>
+        <ol class="list">
+          <li><span class="inline-strong">1. Pick a unit:</span> It must be eligible to shoot based on its movement; units in Engagement Range usually cannot shoot, except Pistols or some MONSTER/VEHICLE rules (“Big Guns Never Tire”).</li>
+          <li><span class="inline-strong">2. Pick targets:</span> Choose targets for every weapon before rolling any dice. Weapons cannot split shots between different units, but a model with multiple weapons can choose different targets for each.</li>
+          <li><span class="inline-strong">3. Make ranged attacks:</span>
+            <ul class="list">
+              <li>Roll to hit: 1D6 per attack, aiming to equal or beat BS.</li>
+              <li>Roll to wound: 1D6 per successful hit, using the Strength vs Toughness table.</li>
+              <li>Critical hits/wounds: unmodified 6s always succeed; 1s always fail. Hit/wound modifiers are capped at ±1.</li>
+            </ul>
+          </li>
+          <li><span class="inline-strong">4. Allocate attacks:</span> The defender chooses which model in the target unit takes each attack, but must continue allocating to a model that already has lost wounds this phase until it is destroyed.</li>
+          <li><span class="inline-strong">5. Saving throws:</span> Roll 1D6 per allocated wound, modified by AP; if the result is less than the save needed, damage goes through. Invulnerable saves ignore AP.</li>
+          <li><span class="inline-strong">6. Deal damage:</span> Subtract Damage from the model’s wounds; excess damage is lost when it dies. Mortal wounds are resolved after normal damage and ignore saves.</li>
+        </ol>
+        <p class="hint">
+          You can “fast roll” similar weapons: roll all hits and wounds together for one profile against one target.
+        </p>
+      </div>
+    </article>
+
+    <div class="section-title">Cover & Terrain</div>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Benefit of Cover</div>
+          <div class="card-subtitle">When you get +1 to saves</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <p class="label">Benefit of Cover (BoC)</p>
+        <ul class="list">
+          <li>BoC is typically +1 to armour saves against ranged attacks.</li>
+          <li>It doesn’t help models with a 3+ save or better against AP 0 attacks.</li>
+          <li>Multiple sources of BoC don’t stack.</li>
+        </ul>
+
+        <p class="label">Common terrain types (summary)</p>
+        <ul class="list">
+          <li><span class="inline-strong">Craters / Rubble:</span> Normal movement and visibility; BoC if the unit is wholly within.</li>
+          <li><span class="inline-strong">Hills:</span> Normal movement and visibility; BoC if the target isn’t fully visible to every model in the attacking unit.</li>
+          <li><span class="inline-strong">Battlefield Debris:</span> Can move over but not end on top; BoC if not fully visible to all attackers.</li>
+          <li><span class="inline-strong">Woods:</span> Harder to draw full visibility; BoC if wholly within or not fully visible to all firing models.</li>
+          <li><span class="inline-strong">Ruins:</span> Infantry/beasts/FLY move through; usually block line of sight; BoC if wholly inside or not fully visible.</li>
+          <li><span class="inline-strong">Barricades / Fuel Pipes:</span> Obstacle rules; give BoC if within 3" and not fully visible; special melee interaction for charging over them.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Charge -->
+    <div class="section-title">Charge Phase</div>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Charge Sequence</div>
+          <div class="card-subtitle">Declaring and resolving charges</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <ol class="list">
+          <li><span class="inline-strong">1. Declare charges:</span> Pick eligible units and declare which enemy units they will charge; targets must be within 12", line of sight is not strictly required.</li>
+          <li><span class="inline-strong">2. Roll charge distance:</span> Roll 2D6; this is the maximum distance the unit can move for the charge.</li>
+          <li><span class="inline-strong">3. Check success:</span> The charge fails if the unit cannot both reach Engagement Range of every declared target and stay in coherency. Otherwise it succeeds.</li>
+          <li><span class="inline-strong">4. Move chargers:</span> Move each model up to the rolled distance, not entering Engagement Range of units that were not declared targets, and trying to make base‑to‑base contact where possible.</li>
+        </ol>
+        <p class="hint">
+          Units that successfully charge gain a Fights First‑type bonus until the end of the turn.
+        </p>
+      </div>
+    </article>
+
+    <!-- Fight -->
+    <div class="section-title">Fight Phase</div>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Fight Sequence</div>
+          <div class="card-subtitle">Pile‑in, attacks, consolidate</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <p class="label">Order of fighting</p>
+        <ul class="list">
+          <li>Start with the player whose turn it is not; players alternate choosing units that are eligible to fight.</li>
+          <li>Units with Fights First resolve their combats ahead of other eligible units.</li>
+        </ul>
+
+        <p class="label">Steps to fight</p>
+        <ol class="list">
+          <li><span class="inline-strong">1. Pile‑in:</span> Move each model up to 3" towards the nearest enemy model, staying in coherency and within Engagement Range if possible.</li>
+          <li><span class="inline-strong">2. Choose targets:</span> A model can fight enemies it is in Engagement Range of, or via friendly models in base contact; choose targets for all attacks first.</li>
+          <li><span class="inline-strong">3. Make melee attacks:</span> Resolve attacks like shooting, but using WS and melee weapon profiles.</li>
+          <li><span class="inline-strong">4. Consolidate:</span> Move up to 3" again, towards the closest enemy or onto objectives, while keeping coherency and Engagement conditions.</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- USRs -->
+    <div class="section-title">Universal Special Rules (USRs)</div>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Common USRs</div>
+          <div class="card-subtitle">A few key ones at a glance</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <ul class="list">
+          <li><span class="keyword">ANTI‑KEYWORD X+</span> – Against the named target type, a wound roll of X+ counts as a Critical Wound.</li>
+          <li><span class="keyword">ASSAULT</span> – Can shoot after Advancing, but only with Assault weapons.</li>
+          <li><span class="keyword">BLAST</span> – Extra attacks vs big units; cannot shoot into combats involving your own units.</li>
+          <li><span class="keyword">DEADLY DEMISE X</span> – On destruction, on a 6 each nearby unit suffers X mortal wounds.</li>
+          <li><span class="keyword">DEEP STRIKE</span> – Deploys from Reserves, usually 9"+ from enemies.</li>
+          <li><span class="keyword">DEVASTATING WOUNDS</span> – On a Critical Wound, normal damage is turned into mortal wounds.</li>
+          <li><span class="keyword">FEEL NO PAIN X+</span> – When losing a wound, roll D6; on X+ that wound is ignored.</li>
+          <li><span class="keyword">FLY</span> – Can move over models/terrain when moving, Advancing, Falling Back, or Charging.</li>
+          <li><span class="keyword">HEAVY</span> – If the unit Remained Stationary, add 1 to Hit rolls.</li>
+          <li><span class="keyword">IGNORES COVER</span> – Target cannot benefit from the Benefit of Cover against this attack.</li>
+          <li><span class="keyword">INDIRECT FIRE</span> – Can shoot targets out of line of sight but with a hit penalty and giving them BoC.</li>
+          <li><span class="keyword">LEADER</span> – Characters attach to Bodyguard units; you cannot allocate attacks to the Character while bodyguards remain.</li>
+          <li><span class="keyword">LETHAL HITS</span> – Critical Hits automatically wound.</li>
+          <li><span class="keyword">MELTA X</span> – At half range, add X to the Damage.</li>
+          <li><span class="keyword">ONE SHOT</span> – Weapon can be fired only once per battle.</li>
+          <li><span class="keyword">PISTOL</span> – Can shoot in Engagement Range, but generally not together with non‑Pistol weapons (unless Monster/Vehicle).</li>
+          <li><span class="keyword">SCOUT X</span> – Pre‑game move of X" after deployment, staying more than 9" from enemies; some Transports inherit this if they’re full of Scout units.</li>
+          <li><span class="keyword">STEALTH</span> – Enemies are −1 to hit the unit with ranged attacks when every model has Stealth.</li>
+          <li><span class="keyword">SUSTAINED HITS X</span> – Critical Hits generate X additional hits.</li>
+          <li><span class="keyword">TORRENT</span> – Attacks automatically hit the target.</li>
+          <li><span class="keyword">TWIN‑LINKED</span> – Re‑roll Wound rolls.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Core stratagems -->
+    <div class="section-title">Core Stratagems (summary)</div>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Re‑rolls & Morale</div>
+          <div class="card-subtitle">Command Re‑roll, Insane Bravery</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <ul class="list">
+          <li><span class="inline-strong">Command Re‑roll (1CP):</span> Re‑roll a single roll (hit, wound, save, damage, Advance, Charge, Desperate Escape, Hazardous, number of attacks).</li>
+          <li><span class="inline-strong">Insane Bravery (1CP):</span> After failing a Battle‑shock test, treat that test as passed and the unit is not Battle‑shocked.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Movement & Position</div>
+          <div class="card-subtitle">Rapid Ingress, Heroic Interventions, Tank Shock</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <ul class="list">
+          <li><span class="inline-strong">Rapid Ingress (1CP):</span> At the end of your opponent’s Movement phase, bring in one unit from Reserves as if it were your Reinforcements step (obeying normal timing limits).</li>
+          <li><span class="inline-strong">Heroic Intervention (2CP):</span> When an enemy finishes a charge, select a nearby unit to immediately declare and resolve a charge against that enemy, without gaining charge bonuses.</li>
+          <li><span class="inline-strong">Tank Shock (1CP):</span> When a VEHICLE charges, roll dice based on weapon Strength to inflict mortal wounds on the charged unit, up to a cap.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Defence & Reactions</div>
+          <div class="card-subtitle">Overwatch, Smokescreen, Go to Ground</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <ul class="list">
+          <li><span class="inline-strong">Fire Overwatch (1CP):</span> React to enemy movement/charges by shooting them as if in your Shooting phase; only unmodified 6s to hit can score hits, and once per turn.</li>
+          <li><span class="inline-strong">Smokescreen (1CP):</span> Give a SMOKE unit Benefit of Cover and Stealth after it is selected as a shooting target.</li>
+          <li><span class="inline-strong">Go to Ground (1CP):</span> An INFANTRY unit gains a 6+ invulnerable save and Benefit of Cover when targeted by shooting.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Fight Phase Tricks</div>
+          <div class="card-subtitle">Counter‑offensive, Epic Challenge</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <ul class="list">
+          <li><span class="inline-strong">Counter‑offensive (2CP):</span> After an enemy fights, immediately pick your unit in that combat to fight next, interrupting the normal order.</li>
+          <li><span class="inline-strong">Epic Challenge (1CP):</span> Give a CHARACTER’s melee attacks a precision‑style ability for the phase, letting them pick out Character models in Attached units.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Reference -->
+    <div class="section-title">Reference: Aircraft, Coherency, Visibility</div>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Aircraft (Summary)</div>
+          <div class="card-subtitle">Movement and who can fight them</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <ul class="list">
+          <li>Aircraft usually start in Reserves unless using Hover mode.</li>
+          <li>They move a minimum distance in a straight line and can pivot once; leaving the table often puts them into Strategic Reserves.</li>
+          <li>Only units with FLY can charge and fight Aircraft; Aircraft themselves cannot charge, pile in, or consolidate, and only fight units with FLY.</li>
+          <li>Other units can move underneath Aircraft but cannot end within Engagement Range of enemy Aircraft unless allowed.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Coherency, Engagement & Visibility</div>
+          <div class="card-subtitle">Basic distances to remember</div>
+        </div>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body">
+        <p class="label">Unit Coherency</p>
+        <ul class="list">
+          <li>Units of 2–6 models: each model must be within 2" horizontally and 5" vertically of at least one other model in its unit.</li>
+          <li>Units of 7+ models: each model must be within that distance of at least two other models in the unit.</li>
+          <li>At the end of each turn, remove models until the unit is back in coherency.</li>
+        </ul>
+
+        <p class="label">Engagement Range</p>
+        <ul class="list">
+          <li>Within 1" horizontally and 5" vertically of an enemy model.</li>
+          <li>You cannot set up or end a Normal, Advance or Fall Back move in Engagement Range of enemy models.</li>
+        </ul>
+
+        <p class="label">Determining Visibility</p>
+        <ul class="list">
+          <li>A model is visible if you can see any part of it.</li>
+          <li>A unit is visible if at least one of its models is visible.</li>
+          <li>“Fully visible” means every facing part of a model can be seen; some terrain rules key off full visibility.</li>
+        </ul>
+
+        <p class="label">Re‑rolls & Modifiers</p>
+        <ul class="list">
+          <li>Unmodified rolls are the result after re‑rolls but before modifiers.</li>
+          <li>You can never re‑roll the same dice more than once.</li>
+          <li>If several dice are added together (e.g. 2D6), you must re‑roll all of them.</li>
+          <li>Hit, wound and save modifiers are usually capped at ±1.</li>
+        </ul>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    function toggleCard(headerEl) {
+      const card = headerEl.parentElement;
+      const body = card.querySelector('.card-body');
+      const icon = card.querySelector('.toggle-icon');
+      if (!body) return;
+
+      const isHidden = body.style.display === 'none';
+      body.style.display = isHidden ? 'block' : 'none';
+      icon.textContent = isHidden ? '▾' : '▸';
+    }
+
+    // On load, expand the first few sections and collapse the rest
+    window.addEventListener('load', () => {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        const body = card.querySelector('.card-body');
+        const icon = card.querySelector('.toggle-icon');
+        if (!body) return;
+        if (index <= 2) {
+          body.style.display = 'block';
+          if (icon) icon.textContent = '▾';
+        } else {
+          body.style.display = 'none';
+          if (icon) icon.textContent = '▸';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
