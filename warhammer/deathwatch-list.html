@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>First Game Deathwatch – 635pts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #0b1120;
+      --accent: #f97316;
+      --accent-soft: rgba(249, 115, 22, 0.18);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --radius: 10px;
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: radial-gradient(circle at top, #111827 0, #020617 50%, #000 100%);
+      color: var(--text);
+    }
+
+    header {
+      padding: 12px 14px;
+      text-align: center;
+      background: rgba(15, 23, 42, 0.98);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    header p {
+      margin: 2px 0 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    main {
+      padding: 10px;
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .pill--highlight {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin: 12px 4px 6px;
+    }
+
+    .card {
+      background: rgba(11, 17, 32, 0.98);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      cursor: pointer;
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(124, 45, 18, 0.95));
+    }
+
+    .card-header-main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .card-meta {
+      font-size: 0.78rem;
+      color: var(--accent);
+      text-align: right;
+      white-space: nowrap;
+      padding-left: 8px;
+    }
+
+    .toggle-icon {
+      margin-left: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .card-body {
+      padding: 8px 10px 10px;
+      font-size: 0.85rem;
+    }
+
+    .stat-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    .stat-tag {
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .stat-tag strong {
+      color: var(--text);
+    }
+
+    .label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-top: 6px;
+    }
+
+    .weapons-table,
+    .abilities-list {
+      margin: 4px 0 6px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .weapons-table li {
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.8);
+    }
+
+    .weapon-name {
+      font-weight: 600;
+      font-size: 0.83rem;
+    }
+
+    .weapon-line {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .abilities-list li {
+      margin-bottom: 4px;
+    }
+
+    .ability-name {
+      font-weight: 600;
+    }
+
+    .ability-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .keyword {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .indent {
+      margin-left: 10px;
+    }
+
+    @media (min-width: 768px) {
+      .card-body {
+        font-size: 0.9rem;
+      }
+      .weapons-table li,
+      .abilities-list li {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>First Game Deathwatch – 635pts</h1>
+    <p>Warhammer 40,000 10th Edition • Adeptus Astartes – Deathwatch • Incursion (1000pt limit)</p>
+  </header>
+
+  <main>
+    <!-- Top-level config -->
+    <div class="pill-row">
+      <span class="pill pill--highlight">Detachment: Firestorm Assault Force</span>
+      <span class="pill">Army Faction: Adeptus Astartes – Deathwatch</span>
+      <span class="pill">Battle Size: Incursion (1000)</span>
+      <span class="pill">Legends: Visible</span>
+      <span class="pill">Knights / Agents / Titans: Visible</span>
+    </div>
+
+    <div class="section-title">Detachment Rule – Firestorm Assault Force</div>
+    <div class="card">
+      <div class="card-body">
+        <div class="label">Close-Range Eradication</div>
+        <p class="ability-text">
+          Ranged weapons equipped by Adeptus Astartes models from your army have the <span class="keyword">[ASSAULT]</span> ability, and each time an attack made with such a weapon targets a unit within 12", add 1 to the Strength characteristic of that attack.
+        </p>
+      </div>
+    </div>
+
+    <div class="section-title">Characters</div>
+
+    <!-- Apothecary -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Primaris Apothecary</div>
+          <div class="card-subtitle">Character • Infantry • 50pts</div>
+        </div>
+        <div class="card-meta">M 6" • T 4 • Sv 3+ • W 4 • Ld 6+ • OC 1<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 6"</span>
+          <span class="stat-tag"><strong>T</strong> 4</span>
+          <span class="stat-tag"><strong>Sv</strong> 3+</span>
+          <span class="stat-tag"><strong>W</strong> 4</span>
+          <span class="stat-tag"><strong>Ld</strong> 6+</span>
+          <span class="stat-tag"><strong>OC</strong> 1</span>
+        </div>
+
+        <div class="label">Weapons</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Close Combat Weapon</div>
+            <div class="weapon-line">Melee • A 4 • WS 3+ • S 4 • AP 0 • D 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Reductor Pistol</div>
+            <div class="weapon-line">R 3" • A 1 • BS 3+ • S 4 • AP -4 • D 2 • Keywords: Pistol</div>
+          </li>
+          <li>
+            <div class="weapon-name">Absolver Bolt Pistol</div>
+            <div class="weapon-line">R 18" • A 1 • BS 3+ • S 5 • AP -1 • D 2 • Keywords: Pistol</div>
+          </li>
+        </ul>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Narthecium</div>
+            <div class="ability-text">
+              While this model is leading a unit, in your Command phase, you can return 1 destroyed model (excluding Characters) to that unit.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Gene Seed Recovery</div>
+            <div class="ability-text">
+              When this model’s Bodyguard unit is destroyed, roll one D6: on a 2+, you gain 1CP.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Leader – Apothecary</div>
+            <div class="ability-text">
+              Can be attached to: Assault Intercessors, Desolation, Devastators, Hellblasters, Infernus, Intercessors, Sternguard Veterans, Tactical Squads. You can attach this model even if a Captain / Chapter Master / Lieutenant is already attached. If the Bodyguard unit is destroyed, each Leader becomes its own unit again.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Core Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Leader</div>
+            <div class="ability-text">
+              While a Bodyguard unit contains a Leader, it is an Attached unit and is treated as a single unit. Use the Bodyguards’ Toughness. Do not allocate attacks to Characters until all Bodyguards are destroyed.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Oath of Moment</div>
+            <div class="ability-text">
+              At the start of your Command phase, select one enemy unit. Until your next Command phase, each time a model from your army with this ability attacks that unit, you can re-roll the Hit roll.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Pistol</div>
+            <div class="ability-text">
+              Allows the unit to shoot while in Engagement Range, but only with Pistols; must choose either Pistols or all other ranged weapons (except Monsters/Vehicles).
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Lieutenant -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Lieutenant</div>
+          <div class="card-subtitle">Character • Infantry • Warlord • 65pts</div>
+        </div>
+        <div class="card-meta">M 6" • T 4 • Sv 3+ • W 4 • Ld 6+ • OC 1<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 6"</span>
+          <span class="stat-tag"><strong>T</strong> 4</span>
+          <span class="stat-tag"><strong>Sv</strong> 3+</span>
+          <span class="stat-tag"><strong>W</strong> 4</span>
+          <span class="stat-tag"><strong>Ld</strong> 6+</span>
+          <span class="stat-tag"><strong>OC</strong> 1</span>
+        </div>
+
+        <div class="label">Weapons</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Bolt Pistol</div>
+            <div class="weapon-line">R 12" • A 1 • BS 2+ • S 4 • AP 0 • D 1 • Keywords: Pistol</div>
+          </li>
+          <li>
+            <div class="weapon-name">Master-crafted Bolt Rifle</div>
+            <div class="weapon-line">R 24" • A 2 • BS 2+ • S 4 • AP -1 • D 2</div>
+          </li>
+          <li>
+            <div class="weapon-name">Close Combat Weapon</div>
+            <div class="weapon-line">Melee • A 5 • WS 2+ • S 4 • AP 0 • D 1</div>
+          </li>
+        </ul>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Leader – Lieutenant</div>
+            <div class="ability-text">
+              Can be attached to: Assault Intercessors, Bladeguard Veterans, Company Heroes, Hellblasters, Infernus, Intercessors, Sternguard Veterans, Tactical Squads. Can join even if a Captain / Chapter Master is already attached. If the Bodyguard unit is destroyed, attached Leaders split off as separate units.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Target Priority</div>
+            <div class="ability-text">
+              This model’s unit is eligible to shoot and declare a charge in a turn in which it Fell Back.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Tactical Precision</div>
+            <div class="ability-text">
+              While this model is leading a unit, weapons equipped by models in that unit have the <span class="keyword">[LETHAL HITS]</span> ability.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Core Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Leader</div>
+            <div class="ability-text">
+              As described under the Apothecary.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Oath of Moment</div>
+            <div class="ability-text">
+              As above: select an enemy unit and re-roll Hit rolls against it.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Pistol</div>
+            <div class="ability-text">
+              As described under the Apothecary.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Lethal Hits</div>
+            <div class="ability-text">
+              Each Critical Hit automatically wounds the target.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <div class="section-title">Battleline</div>
+
+    <!-- Deathwatch Veterans -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Deathwatch Veterans</div>
+          <div class="card-subtitle">Battleline • Infantry • 100pts</div>
+        </div>
+        <div class="card-meta">M 6" • T 4 • Sv 3+ • W 2 • Ld 6+ • OC 2<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 6"</span>
+          <span class="stat-tag"><strong>T</strong> 4</span>
+          <span class="stat-tag"><strong>Sv</strong> 3+</span>
+          <span class="stat-tag"><strong>W</strong> 2</span>
+          <span class="stat-tag"><strong>Ld</strong> 6+</span>
+          <span class="stat-tag"><strong>OC</strong> 2</span>
+        </div>
+
+        <div class="label">Watch Sergeant</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Long Vigil melee weapon</div>
+            <div class="weapon-line">Melee • A 3 • WS 3+ • S 5 • AP -2 • D 1</div>
+          </li>
+        </ul>
+        <p class="ability-text">
+          <span class="ability-name">Astartes Shield:</span> The bearer has a 4+ invulnerable save.
+        </p>
+
+        <div class="label">Deathwatch Veterans (mix)</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Deathwatch thunder hammer (x2)</div>
+            <div class="weapon-line">Melee • A 3 • WS 4+ • S 10 • AP -2 • D 3 • Keywords: Devastating Wounds</div>
+          </li>
+          <li>
+            <div class="weapon-name">Missile launcher – frag (x2)</div>
+            <div class="weapon-line">R 48" • A D6 • BS 4+ • S 4 • AP 0 • D 1 • Keywords: Blast, Heavy</div>
+          </li>
+          <li>
+            <div class="weapon-name">Missile launcher – krak (x2)</div>
+            <div class="weapon-line">R 48" • A 1 • BS 4+ • S 9 • AP -2 • D D6 • Keywords: Heavy</div>
+          </li>
+          <li>
+            <div class="weapon-name">Close combat weapon (x2 – heavy weapon Marines)</div>
+            <div class="weapon-line">Melee • A 3 • WS 3+ • S 4 • AP 0 • D 1</div>
+          </li>
+        </ul>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Death to the Alien</div>
+            <div class="ability-text">
+              Each time a model in this unit makes an attack, re-roll a Hit roll of 1. If the target does not have the Imperium or Chaos keywords, you can re-roll the Hit roll instead.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Attached Unit</div>
+            <div class="ability-text">
+              If a Character can be attached to Sternguard or Vanguard Veterans, it can be attached to this unit instead.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Core Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Oath of Moment</div>
+            <div class="ability-text">
+              As described under the Apothecary.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Devastating Wounds</div>
+            <div class="ability-text">
+              On a Critical Wound, no saving throw of any kind can be made against the attack; resolve these after all other attacks from the unit.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Blast</div>
+            <div class="ability-text">
+              When determining attacks, add 1 to the number of attacks for every five models in the target unit (rounding down). Cannot target units in Engagement Range of your own army.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Heavy</div>
+            <div class="ability-text">
+              If the firing unit Remained Stationary this turn, add 1 to Hit rolls with this weapon.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Intercessor Squad -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Intercessor Squad</div>
+          <div class="card-subtitle">Battleline • Infantry • 160pts</div>
+        </div>
+        <div class="card-meta">M 6" • T 4 • Sv 3+ • W 2 • Ld 6+ • OC 2<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 6"</span>
+          <span class="stat-tag"><strong>T</strong> 4</span>
+          <span class="stat-tag"><strong>Sv</strong> 3+</span>
+          <span class="stat-tag"><strong>W</strong> 2</span>
+          <span class="stat-tag"><strong>Ld</strong> 6+</span>
+          <span class="stat-tag"><strong>OC</strong> 2</span>
+        </div>
+
+        <div class="label">Intercessor Sergeant</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Bolt Rifle</div>
+            <div class="weapon-line">R 24" • A 2 • BS 3+ • S 4 • AP -1 • D 1 • Keywords: Assault, Heavy</div>
+          </li>
+          <li>
+            <div class="weapon-name">Bolt Pistol</div>
+            <div class="weapon-line">R 12" • A 1 • BS 3+ • S 4 • AP 0 • D 1 • Keywords: Pistol</div>
+          </li>
+          <li>
+            <div class="weapon-name">Close Combat Weapon</div>
+            <div class="weapon-line">Melee • A 3 • WS 3+ • S 4 • AP 0 • D 1</div>
+          </li>
+        </ul>
+
+        <div class="label">Intercessors (x9)</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Bolt Rifle (x9)</div>
+            <div class="weapon-line">R 24" • A 2 • BS 3+ • S 4 • AP -1 • D 1 • Keywords: Assault, Heavy</div>
+          </li>
+          <li>
+            <div class="weapon-name">Bolt Pistol (x9)</div>
+            <div class="weapon-line">R 12" • A 1 • BS 3+ • S 4 • AP 0 • D 1 • Keywords: Pistol</div>
+          </li>
+          <li>
+            <div class="weapon-name">Close Combat Weapon (x9)</div>
+            <div class="weapon-line">Melee • A 3 • WS 3+ • S 4 • AP 0 • D 1</div>
+          </li>
+        </ul>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Objective Secured</div>
+            <div class="ability-text">
+              If you control an objective at the end of your Command phase and this unit is within range of it, that objective remains under your control until your opponent controls it at the start or end of a turn.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Core Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Oath of Moment</div>
+            <div class="ability-text">
+              As described under the Apothecary.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Assault</div>
+            <div class="ability-text">
+              If the unit Advanced, it can still shoot with Assault weapons, but only those Assault weapons.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Heavy</div>
+            <div class="ability-text">
+              If the unit Remained Stationary, add 1 to Hit rolls for this weapon.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Pistol</div>
+            <div class="ability-text">
+              As described under the Apothecary.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <div class="section-title">Infantry</div>
+
+    <!-- Aggressor Squad -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Aggressor Squad</div>
+          <div class="card-subtitle">Infantry • Gravis • 120pts</div>
+        </div>
+        <div class="card-meta">M 5" • T 6 • Sv 3+ • W 3 • Ld 6+ • OC 1<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 5"</span>
+          <span class="stat-tag"><strong>T</strong> 6</span>
+          <span class="stat-tag"><strong>Sv</strong> 3+</span>
+          <span class="stat-tag"><strong>W</strong> 3</span>
+          <span class="stat-tag"><strong>Ld</strong> 6+</span>
+          <span class="stat-tag"><strong>OC</strong> 1</span>
+        </div>
+
+        <div class="label">Weapons</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Twin Power Fist (Sergeant & x2 Aggressors)</div>
+            <div class="weapon-line">Melee • A 3 • WS 3+ • S 8 • AP -2 • D 2 • Keywords: Twin-linked</div>
+          </li>
+          <li>
+            <div class="weapon-name">Flamestorm Gauntlets</div>
+            <div class="weapon-line">R 12" • A D6+1 • BS – • S 4 • AP 0 • D 1 • Keywords: Ignores Cover, Torrent, Twin-linked</div>
+          </li>
+        </ul>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Close-quarters Firepower</div>
+            <div class="ability-text">
+              Each time a model in this unit makes a ranged attack that targets the closest eligible target, improve the AP of that attack by 1.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Core Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Oath of Moment</div>
+            <div class="ability-text">
+              As described under the Apothecary.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Twin-linked</div>
+            <div class="ability-text">
+              Re-roll Wound rolls for attacks made with this weapon.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Torrent</div>
+            <div class="ability-text">
+              Attacks made with this weapon automatically hit.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Ignores Cover</div>
+            <div class="ability-text">
+              Targets cannot have the Benefit of Cover against this weapon.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <div class="section-title">Vehicle</div>
+
+    <!-- Ballistus Dreadnought -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Ballistus Dreadnought</div>
+          <div class="card-subtitle">Vehicle • 140pts</div>
+        </div>
+        <div class="card-meta">M 8" • T 10 • Sv 2+ • W 12 • Ld 6+ • OC 4<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 8"</span>
+          <span class="stat-tag"><strong>T</strong> 10</span>
+          <span class="stat-tag"><strong>Sv</strong> 2+</span>
+          <span class="stat-tag"><strong>W</strong> 12</span>
+          <span class="stat-tag"><strong>Ld</strong> 6+</span>
+          <span class="stat-tag"><strong>OC</strong> 4</span>
+        </div>
+
+        <div class="label">Weapons</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Ballistus Lascannon</div>
+            <div class="weapon-line">R 48" • A 2 • BS 3+ • S 12 • AP -3 • D D6+1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Ballistus Missile Launcher – frag</div>
+            <div class="weapon-line">R 48" • A 2D6 • BS 3+ • S 5 • AP 0 • D 1 • Keywords: Blast</div>
+          </li>
+          <li>
+            <div class="weapon-name">Ballistus Missile Launcher – krak</div>
+            <div class="weapon-line">R 48" • A 2 • BS 3+ • S 10 • AP -2 • D D6</div>
+          </li>
+          <li>
+            <div class="weapon-name">Twin Storm Bolter</div>
+            <div class="weapon-line">R 24" • A 2 • BS 3+ • S 4 • AP 0 • D 1 • Keywords: Rapid Fire 2, Twin-linked</div>
+          </li>
+          <li>
+            <div class="weapon-name">Armoured Feet</div>
+            <div class="weapon-line">Melee • A 5 • WS 3+ • S 7 • AP 0 • D 1</div>
+          </li>
+        </ul>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Ballistus Strike</div>
+            <div class="ability-text">
+              Each time this model makes a ranged attack that targets a unit that is not Below Half-strength, you can re-roll the Hit roll.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Damaged (1–4 Wounds Remaining)</div>
+            <div class="ability-text">
+              While this model has 1–4 wounds remaining, subtract 1 from Hit rolls made by this model.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Core Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Deadly Demise D3</div>
+            <div class="ability-text">
+              When destroyed, roll one D6 before removing it. On a 6, each unit within 6" suffers D3 mortal wounds.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Oath of Moment</div>
+            <div class="ability-text">
+              As described under the Apothecary.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Blast</div>
+            <div class="ability-text">
+              As described under Deathwatch Veterans.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Rapid Fire X</div>
+            <div class="ability-text">
+              If the target is within half range, increase the Attacks characteristic by X.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Twin-linked</div>
+            <div class="ability-text">
+              Re-roll Wound rolls for attacks made with this weapon.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    function toggleCard(headerEl) {
+      const card = headerEl.parentElement;
+      const body = card.querySelector('.card-body');
+      const icon = card.querySelector('.toggle-icon');
+
+      const isHidden = body.style.display === 'none';
+      body.style.display = isHidden ? 'block' : 'none';
+      icon.textContent = isHidden ? '▾' : '▸';
+    }
+
+    // collapse all but first few on load for easier scrolling on mobile
+    window.addEventListener('load', () => {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        const body = card.querySelector('.card-body');
+        const icon = card.querySelector('.toggle-icon');
+        if (!body) return;
+        if (index <= 1) {
+          body.style.display = 'block';
+          if (icon) icon.textContent = '▾';
+        } else {
+          body.style.display = 'none';
+          if (icon) icon.textContent = '▸';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

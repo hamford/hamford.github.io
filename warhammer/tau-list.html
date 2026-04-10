@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>First Game Tau – 645pts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #0b1120;
+      --accent: #22d3ee;
+      --accent-soft: rgba(34, 211, 238, 0.18);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --danger: #f97373;
+      --radius: 10px;
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: radial-gradient(circle at top, #111827 0, #020617 50%, #000 100%);
+      color: var(--text);
+    }
+
+    header {
+      padding: 12px 14px;
+      text-align: center;
+      background: rgba(15, 23, 42, 0.98);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    header p {
+      margin: 2px 0 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    main {
+      padding: 10px;
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .pill--highlight {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin: 12px 4px 6px;
+    }
+
+    .card {
+      background: rgba(11, 17, 32, 0.98);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      cursor: pointer;
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(8, 47, 73, 0.95));
+    }
+
+    .card-header-main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .card-meta {
+      font-size: 0.78rem;
+      color: var(--accent);
+      text-align: right;
+      white-space: nowrap;
+      padding-left: 8px;
+    }
+
+    .toggle-icon {
+      margin-left: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .card-body {
+      padding: 8px 10px 10px;
+      font-size: 0.85rem;
+    }
+
+    .stat-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    .stat-tag {
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .stat-tag strong {
+      color: var(--text);
+    }
+
+    .label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-top: 6px;
+    }
+
+    .weapons-table,
+    .abilities-list {
+      margin: 4px 0 6px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .weapons-table li {
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.8);
+    }
+
+    .weapon-name {
+      font-weight: 600;
+      font-size: 0.83rem;
+    }
+
+    .weapon-line {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .abilities-list li {
+      margin-bottom: 4px;
+    }
+
+    .ability-name {
+      font-weight: 600;
+    }
+
+    .ability-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .keyword {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .indent {
+      margin-left: 10px;
+    }
+
+    @media (min-width: 768px) {
+      .card-body {
+        font-size: 0.9rem;
+      }
+      .weapons-table li,
+      .abilities-list li {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>First Game Tau – 645pts</h1>
+    <p>Warhammer 40,000 10th Edition • T'au Empire • Incursion (1000pt limit)</p>
+  </header>
+
+  <main>
+    <!-- Top-level config -->
+    <div class="pill-row">
+      <span class="pill pill--highlight">Detachment: Mont’ka</span>
+      <span class="pill">Army Faction: T’au Empire</span>
+      <span class="pill">Battle Size: Incursion (1000)</span>
+      <span class="pill">Legends: Visible</span>
+      <span class="pill">Unaligned: Visible</span>
+    </div>
+
+    <div class="section-title">Detachment Rule – Mont’ka</div>
+    <div class="card">
+      <div class="card-body">
+        <div class="label">Killing Blow</div>
+        <p class="ability-text">
+          During the first, second and third battle rounds, ranged weapons equipped by T’au Empire models from your army have the
+          <span class="keyword">[ASSAULT]</span> ability. During the first, second and third battle rounds, while a unit is a Guided unit (see For the Greater Good), its ranged weapons have the
+          <span class="keyword">[LETHAL HITS]</span> ability.
+        </p>
+        <div class="label">Assault</div>
+        <p class="ability-text">
+          Weapons with <span class="keyword">[ASSAULT]</span> in their profile are known as Assault weapons. If a unit that Advanced this turn contains any models equipped with Assault weapons, it is still eligible to shoot in this turn’s Shooting phase. When such a unit is selected to shoot, you can only resolve attacks using Assault weapons its models are equipped with.
+        </p>
+        <div class="label">Lethal Hits</div>
+        <p class="ability-text">
+          Weapons with <span class="keyword">[LETHAL HITS]</span> in their profile are known as Lethal Hits weapons. Each time an attack is made with such a weapon, a Critical Hit automatically wounds the target.
+        </p>
+      </div>
+    </div>
+
+    <div class="section-title">Characters</div>
+
+    <!-- Cadre Fireblade -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Cadre Fireblade</div>
+          <div class="card-subtitle">Leader • Infantry • 50pts</div>
+        </div>
+        <div class="card-meta">M 6" • T 3 • Sv 4+ • W 3 • Ld 7+ • OC 1<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 6"</span>
+          <span class="stat-tag"><strong>T</strong> 3</span>
+          <span class="stat-tag"><strong>Sv</strong> 4+</span>
+          <span class="stat-tag"><strong>W</strong> 3</span>
+          <span class="stat-tag"><strong>Ld</strong> 7+</span>
+          <span class="stat-tag"><strong>OC</strong> 1</span>
+        </div>
+
+        <div class="label">Weapons</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Fireblade pulse rifle</div>
+            <div class="weapon-line">R 30" • A 1 • BS 3+ • S 5 • AP 0 • D 2 • Keywords: Rapid Fire 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Close combat weapon</div>
+            <div class="weapon-line">Melee • A 3 • WS 4+ • S 3 • AP 0 • D 1</div>
+          </li>
+        </ul>
+
+        <div class="label">Wargear / Drones</div>
+        <p class="ability-text">
+          <span class="ability-name">Shield Drone x2:</span>
+          Add 1 to the bearer’s Wounds characteristic.
+        </p>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Volley Fire</div>
+            <div class="ability-text">
+              While this model is leading a unit, add 1 to the Attacks characteristic of ranged weapons equipped by models in that unit.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Crack Shot</div>
+            <div class="ability-text">
+              Each time this model makes a ranged attack, on a Critical Wound, that attack has an Armour Penetration characteristic of -3.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Leader</div>
+            <div class="ability-text">
+              This model can be attached to the following units: Breacher Team, Strike Team.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Faction Ability – For The Greater Good</div>
+        <p class="ability-text">
+          If your Army Faction is T’AU EMPIRE, then in your Shooting phase units from your army can work in pairs to help each other target specific enemy units. When they do this, one unit is the <strong>Observer</strong> unit and the other is their <strong>Guided</strong> unit. The enemy they are targeting is called their <strong>Spotted</strong> unit.
+        </p>
+        <p class="ability-text indent">
+          Each time you select this unit to shoot, if it is not an Observer unit, it can use this ability. If it does, select one other friendly unit with this ability that is also eligible to shoot (excluding FORTIFICATION, Battle-shocked and Observer units). Until the end of the phase, this unit is considered a Guided unit, and that friendly unit is considered an Observer unit. Then select one enemy unit that is visible to both your units to be their Spotted unit.
+        </p>
+        <p class="ability-text indent">
+          Until the end of the phase:
+          <br>• Each time a model in a Guided unit makes an attack that targets their Spotted unit, improve the Ballistic Skill characteristic of the attack by 1 and, if their Observer unit has the MARKERLIGHT keyword, the attack has the <span class="keyword">[IGNORES COVER]</span> ability.
+          <br>• Each time a model in a Guided unit makes an attack that does not target their Spotted unit, worsen the Ballistic Skill characteristic of the attack by 1.
+        </p>
+
+        <div class="label">Core Rule – Leader</div>
+        <p class="ability-text">
+          While a Bodyguard unit contains a Leader, it is known as an Attached unit and, with the exception of rules that are triggered when units are destroyed, it is treated as a single unit for all rules purposes. Use the Bodyguard’s Toughness when resolving attacks, and do not allocate wounds to the Character until all Bodyguards are destroyed.
+        </p>
+      </div>
+    </article>
+
+    <!-- Commander in Coldstar Battlesuit -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Commander in Coldstar Battlesuit</div>
+          <div class="card-subtitle">Warlord • Battlesuit • 110pts</div>
+        </div>
+        <div class="card-meta">M 12" • T 5 • Sv 3+ • W 6 • Ld 7+ • OC 2<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 12"</span>
+          <span class="stat-tag"><strong>T</strong> 5</span>
+          <span class="stat-tag"><strong>Sv</strong> 3+</span>
+          <span class="stat-tag"><strong>W</strong> 6</span>
+          <span class="stat-tag"><strong>Ld</strong> 7+</span>
+          <span class="stat-tag"><strong>OC</strong> 2</span>
+        </div>
+
+        <div class="label">Weapons</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Battlesuit fists</div>
+            <div class="weapon-line">Melee • A 3 • WS 4+ • S 5 • AP 0 • D 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">High-output burst cannon</div>
+            <div class="weapon-line">R 18" • A 8 • BS 3+ • S 5 • AP 0 • D 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Cyclic ion blaster – standard</div>
+            <div class="weapon-line">R 18" • A 3 • BS 3+ • S 7 • AP -1 • D 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Cyclic ion blaster – overcharge</div>
+            <div class="weapon-line">R 18" • A 3 • BS 3+ • S 8 • AP -2 • D 2 • Keywords: Hazardous</div>
+          </li>
+          <li>
+            <div class="weapon-name">Fusion blaster</div>
+            <div class="weapon-line">R 12" • A 1 • BS 3+ • S 9 • AP -4 • D D6 • Keywords: Melta 2</div>
+          </li>
+          <li>
+            <div class="weapon-name">Twin pulse carbine (Gun Drone)</div>
+            <div class="weapon-line">R 20" • A 2 • BS 5+ • S 5 • AP 0 • D 1 • Keywords: Assault, Twin-linked</div>
+          </li>
+        </ul>
+
+        <div class="label">Wargear / Drones</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Battlesuit Support System</div>
+            <div class="ability-text">
+              The bearer’s unit is eligible to shoot in a turn in which it Fell Back, but when doing so only models equipped with this wargear can make ranged attacks.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Shield Drone</div>
+            <div class="ability-text">Add 1 to the bearer’s Wounds characteristic.</div>
+          </li>
+          <li>
+            <div class="ability-name">Gun Drone</div>
+            <div class="ability-text">Equipped with a twin pulse carbine as above.</div>
+          </li>
+        </ul>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Leader</div>
+            <div class="ability-text">
+              This model can be attached to: Crisis Sunforge Battlesuits, Crisis Fireknife Battlesuits, Crisis Starscythe Battlesuits.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Coldstar Commander</div>
+            <div class="ability-text">
+              While this model is leading a unit, models in that unit have a Move characteristic of 12" and ranged weapons equipped by models in that unit have the <span class="keyword">[ASSAULT]</span> ability.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Abilities (Keywords)</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Deep Strike</div>
+            <div class="ability-text">
+              Can be set up in Reserves and deployed more than 9" from enemy models during the Reinforcements step.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">For The Greater Good</div>
+            <div class="ability-text">
+              As described in the Cadre Fireblade entry; allows Observer/Guided pairs and Spotted units with BS bonuses and potential Ignores Cover.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Hazardous</div>
+            <div class="ability-text">
+              After resolving attacks with Hazardous weapons, roll one D6 per such weapon used. For each 1, destroy a model equipped with a Hazardous weapon in that unit, or inflict 3 mortal wounds on a Character, Monster or Vehicle instead.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Melta X</div>
+            <div class="ability-text">
+              If the target is within half range, increase that attack’s Damage characteristic by X.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Twin-linked</div>
+            <div class="ability-text">
+              Each time an attack is made with this weapon, you can re-roll that attack’s Wound roll.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Assault</div>
+            <div class="ability-text">
+              As described under Mont’ka: can shoot after Advancing, but only with Assault weapons.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <div class="section-title">Battleline</div>
+
+    <!-- Strike Team -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Strike Team</div>
+          <div class="card-subtitle">Battleline • Infantry • 80pts</div>
+        </div>
+        <div class="card-meta">M 6" • T 3 • Sv 4+ • W 1 • Ld 7+ • OC 2<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 6"</span>
+          <span class="stat-tag"><strong>T</strong> 3</span>
+          <span class="stat-tag"><strong>Sv</strong> 4+</span>
+          <span class="stat-tag"><strong>W</strong> 1</span>
+          <span class="stat-tag"><strong>Ld</strong> 7+</span>
+          <span class="stat-tag"><strong>OC</strong> 2</span>
+        </div>
+
+        <div class="label">Weapons – Shas’ui</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Pulse rifle</div>
+            <div class="weapon-line">R 30" • A 1 • BS 4+ • S 5 • AP 0 • D 1 • Keywords: Rapid Fire 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Pulse pistol</div>
+            <div class="weapon-line">R 12" • A 1 • BS 4+ • S 5 • AP 0 • D 1 • Keywords: Pistol</div>
+          </li>
+          <li>
+            <div class="weapon-name">Close combat weapon</div>
+            <div class="weapon-line">Melee • A 1 • WS 5+ • S 3 • AP 0 • D 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Support turret</div>
+            <div class="weapon-line">R 30" • A 2 • BS 5+ • S 5 • AP 0 • D 1 • Keywords: Indirect Fire, Twin-linked</div>
+          </li>
+        </ul>
+
+        <div class="label">Weapons – Fire Warriors (x9)</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Pulse rifle (x9)</div>
+            <div class="weapon-line">R 30" • A 1 • BS 4+ • S 5 • AP 0 • D 1 • Keywords: Rapid Fire 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Pulse pistol (x9)</div>
+            <div class="weapon-line">R 12" • A 1 • BS 4+ • S 5 • AP 0 • D 1 • Keywords: Pistol</div>
+          </li>
+          <li>
+            <div class="weapon-name">Close combat weapon (x9)</div>
+            <div class="weapon-line">Melee • A 1 • WS 5+ • S 3 • AP 0 • D 1</div>
+          </li>
+        </ul>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Suppression Volley</div>
+            <div class="ability-text">
+              In your Shooting phase, after this unit has shot, select one enemy INFANTRY unit hit by one or more of those attacks. Until the start of your next turn, while this unit is on the battlefield, that enemy unit is suppressed: subtract 1 from Hit rolls made by that unit.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">DS8 Support Turret</div>
+            <div class="ability-text">
+              In your Movement phase, if this unit Remains Stationary, until the start of your next turn its Shas’ui model is equipped with the support turret weapon.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Abilities (Keywords)</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">For The Greater Good</div>
+            <div class="ability-text">
+              As described previously; enables Observer/Guided pairing and Spotted units with BS bonuses and potential Ignores Cover.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Rapid Fire X</div>
+            <div class="ability-text">
+              When targeting a unit within half range, increase the weapon’s Attacks characteristic by X.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Pistol</div>
+            <div class="ability-text">
+              Allows the unit to shoot in Engagement Range but only with Pistols; choose either Pistols or other ranged weapons (except Monsters/Vehicles) when shooting.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Indirect Fire</div>
+            <div class="ability-text">
+              Can target units out of line of sight; if no models are visible, subtract 1 from Hit rolls and the target has the Benefit of Cover.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Twin-linked</div>
+            <div class="ability-text">
+              Re-roll Wound rolls for attacks made with this weapon.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <div class="section-title">Infantry</div>
+
+    <!-- Pathfinder Team -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Pathfinder Team</div>
+          <div class="card-subtitle">Infantry • 90pts</div>
+        </div>
+        <div class="card-meta">M 7" • T 3 • Sv 4+ • W 1 • Ld 7+ • OC 1<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 7"</span>
+          <span class="stat-tag"><strong>T</strong> 3</span>
+          <span class="stat-tag"><strong>Sv</strong> 4+</span>
+          <span class="stat-tag"><strong>W</strong> 1</span>
+          <span class="stat-tag"><strong>Ld</strong> 7+</span>
+          <span class="stat-tag"><strong>OC</strong> 1</span>
+        </div>
+
+        <div class="label">Weapons</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Pulse carbine (Shas’ui)</div>
+            <div class="weapon-line">R 20" • A 2 • BS 4+ • S 5 • AP 0 • D 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Pulse pistol (Shas’ui)</div>
+            <div class="weapon-line">R 12" • A 1 • BS 4+ • S 5 • AP 0 • D 1 • Keywords: Pistol</div>
+          </li>
+          <li>
+            <div class="weapon-name">Close combat weapon (Shas’ui)</div>
+            <div class="weapon-line">Melee • A 1 • WS 5+ • S 3 • AP 0 • D 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Pulse carbine (x9)</div>
+            <div class="weapon-line">R 20" • A 2 • BS 4+ • S 5 • AP 0 • D 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Pulse pistol (x9)</div>
+            <div class="weapon-line">R 12" • A 1 • BS 4+ • S 5 • AP 0 • D 1 • Keywords: Pistol</div>
+          </li>
+          <li>
+            <div class="weapon-name">Close combat weapon (x9)</div>
+            <div class="weapon-line">Melee • A 1 • WS 5+ • S 3 • AP 0 • D 1</div>
+          </li>
+        </ul>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Target Uploaded</div>
+            <div class="ability-text">
+              Once per turn, when using For the Greater Good, you can select this unit to be an Observer unit for a second time. You can also change which enemy unit is its Spotted unit.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Abilities (Keywords)</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Scouts 7"</div>
+            <div class="ability-text">
+              Before the first battle round, this unit can make a Normal move of up to 7", ending more than 9" from enemy models. Dedicated Transports with only Scouts units embarked can move likewise.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">For The Greater Good</div>
+            <div class="ability-text">
+              As previously described; allows pairing as Observer/Guided and designating Spotted units.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Pistol</div>
+            <div class="ability-text">
+              As described under Strike Team.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <div class="section-title">Vehicles & Battlesuits</div>
+
+    <!-- Crisis Fireknife Battlesuits -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Crisis Fireknife Battlesuits</div>
+          <div class="card-subtitle">Battlesuits • 150pts</div>
+        </div>
+        <div class="card-meta">M 10" • T 5 • Sv 3+ • W 4 • Ld 7+ • OC 2<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 10"</span>
+          <span class="stat-tag"><strong>T</strong> 5</span>
+          <span class="stat-tag"><strong>Sv</strong> 3+</span>
+          <span class="stat-tag"><strong>W</strong> 4</span>
+          <span class="stat-tag"><strong>Ld</strong> 7+</span>
+          <span class="stat-tag"><strong>OC</strong> 2</span>
+        </div>
+
+        <div class="label">Weapons</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Battlesuit fists</div>
+            <div class="weapon-line">Melee • A 3 • WS 5+ • S 5 • AP 0 • D 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Plasma rifle</div>
+            <div class="weapon-line">R 18" • A 1 • BS 4+ • S 8 • AP -3 • D 3</div>
+          </li>
+          <li>
+            <div class="weapon-name">Missile pod</div>
+            <div class="weapon-line">R 30" • A 2 • BS 4+ • S 7 • AP -1 • D 2</div>
+          </li>
+          <li>
+            <div class="weapon-name">Twin pulse carbine (Gun Drones)</div>
+            <div class="weapon-line">R 20" • A 2 • BS 5+ • S 5 • AP 0 • D 1 • Keywords: Assault, Twin-linked</div>
+          </li>
+        </ul>
+
+        <div class="label">Wargear</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Shield Drone</div>
+            <div class="ability-text">
+              Add 1 to the bearer’s Wounds characteristic.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Weapon Support System</div>
+            <div class="ability-text">
+              Each time the bearer makes a ranged attack, you can ignore any or all modifiers to the Hit roll.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Fireknife</div>
+            <div class="ability-text">
+              Each time a model in this unit makes a ranged attack, re-roll a Hit roll of 1. If that attack targets a unit that is at its Starting Strength, you can re-roll the Hit roll instead.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Abilities (Keywords)</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Deep Strike</div>
+            <div class="ability-text">
+              As described under the Commander in Coldstar Battlesuit.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">For The Greater Good</div>
+            <div class="ability-text">
+              As previously described.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Assault & Twin-linked</div>
+            <div class="ability-text">
+              Drone weapons gain the same Assault and Twin-linked rules as described above.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Piranha -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Piranha</div>
+          <div class="card-subtitle">Vehicle • 55pts</div>
+        </div>
+        <div class="card-meta">M 14" • T 7 • Sv 4+ • W 7 • Ld 7+ • OC 2<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 14"</span>
+          <span class="stat-tag"><strong>T</strong> 7</span>
+          <span class="stat-tag"><strong>Sv</strong> 4+</span>
+          <span class="stat-tag"><strong>W</strong> 7</span>
+          <span class="stat-tag"><strong>Ld</strong> 7+</span>
+          <span class="stat-tag"><strong>OC</strong> 2</span>
+        </div>
+
+        <div class="label">Weapons</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Armoured hull</div>
+            <div class="weapon-line">Melee • A 2 • WS 5+ • S 4 • AP 0 • D 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Twin pulse carbine (x2)</div>
+            <div class="weapon-line">R 20" • A 2 • BS 4+ • S 5 • AP 0 • D 1 • Keywords: Assault, Twin-linked</div>
+          </li>
+          <li>
+            <div class="weapon-name">Piranha burst cannon</div>
+            <div class="weapon-line">R 18" • A 4 • BS 4+ • S 6 • AP -1 • D 1</div>
+          </li>
+        </ul>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Piranha</div>
+            <div class="ability-text">
+              At the end of your Movement phase, select one enemy unit within 12" of this unit; that enemy unit must take a Battle-shock test.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Abilities (Keywords)</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Deadly Demise 1</div>
+            <div class="ability-text">
+              When destroyed, on a 6 each unit within 6" suffers 1 mortal wound.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Scouts 9"</div>
+            <div class="ability-text">
+              Before the first battle round, this unit can make a Normal move of up to 9", ending more than 9" from enemy models.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">For The Greater Good</div>
+            <div class="ability-text">
+              As previously described.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Assault & Twin-linked</div>
+            <div class="ability-text">
+              As described under other units.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Broadside Battlesuits -->
+    <article class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-main">
+          <div class="card-title">Broadside Battlesuits</div>
+          <div class="card-subtitle">Battlesuits • 110pts</div>
+        </div>
+        <div class="card-meta">M 5" • T 6 • Sv 2+ • W 8 • Ld 7+ • OC 2<span class="toggle-icon">▾</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stat-line">
+          <span class="stat-tag"><strong>M</strong> 5"</span>
+          <span class="stat-tag"><strong>T</strong> 6</span>
+          <span class="stat-tag"><strong>Sv</strong> 2+</span>
+          <span class="stat-tag"><strong>W</strong> 8</span>
+          <span class="stat-tag"><strong>Ld</strong> 7+</span>
+          <span class="stat-tag"><strong>OC</strong> 2</span>
+        </div>
+
+        <div class="label">Weapons</div>
+        <ul class="weapons-table">
+          <li>
+            <div class="weapon-name">Crushing bulk</div>
+            <div class="weapon-line">Melee • A 3 • WS 5+ • S 6 • AP 0 • D 1</div>
+          </li>
+          <li>
+            <div class="weapon-name">Heavy rail rifle</div>
+            <div class="weapon-line">R 60" • A 2 • BS 4+ • S 12 • AP -4 • D D6+1 • Keywords: Heavy, Devastating Wounds</div>
+          </li>
+        </ul>
+
+        <div class="label">Unit Abilities</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">Advanced Armour</div>
+            <div class="ability-text">
+              Models in this unit have the Feel No Pain 4+ ability against mortal wounds.
+            </div>
+          </li>
+        </ul>
+
+        <div class="label">Abilities (Keywords)</div>
+        <ul class="abilities-list">
+          <li>
+            <div class="ability-name">For The Greater Good</div>
+            <div class="ability-text">
+              As previously described.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Heavy</div>
+            <div class="ability-text">
+              If the attacking model’s unit Remained Stationary this turn, add 1 to Hit rolls with this weapon.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Devastating Wounds</div>
+            <div class="ability-text">
+              On a Critical Wound, no saving throw (including invulnerable) can be made; resolve these attacks after all others.
+            </div>
+          </li>
+          <li>
+            <div class="ability-name">Feel No Pain 4+</div>
+            <div class="ability-text">
+              Each time this model would lose a wound (including mortal wounds), roll one D6; on a 4+, that wound is ignored.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    function toggleCard(headerEl) {
+      const card = headerEl.parentElement;
+      const body = card.querySelector('.card-body');
+      const icon = card.querySelector('.toggle-icon');
+
+      const isHidden = body.style.display === 'none';
+      body.style.display = isHidden ? 'block' : 'none';
+      icon.textContent = isHidden ? '▾' : '▸';
+    }
+
+    // collapse all but first few on load for easier scrolling on mobile
+    window.addEventListener('load', () => {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        const body = card.querySelector('.card-body');
+        const icon = card.querySelector('.toggle-icon');
+        if (!body) return;
+        if (index <= 1) {
+          body.style.display = 'block';
+          if (icon) icon.textContent = '▾';
+        } else {
+          body.style.display = 'none';
+          if (icon) icon.textContent = '▸';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
