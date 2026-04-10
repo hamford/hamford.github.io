@@ -903,7 +903,7 @@
         const body = card.querySelector('.card-body');
         const icon = card.querySelector('.toggle-icon');
         if (!body) return;
-        if (index <= 1) {
+        if (index <= 0) {
           body.style.display = 'block';
           if (icon) icon.textContent = '▾';
         } else {
