@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple Score Keeper</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --danger: #f97373;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #1e293b, #020617);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 900px;
+      padding: 1.5rem;
+      box-sizing: border-box;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      margin: 0;
+    }
+
+    .tagline {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 0.75rem;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+
+    input[type="text"] {
+      flex: 1 1 180px;
+      padding: 0.55rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: #020617;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    input[type="text"]::placeholder {
+      color: var(--muted);
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 0.5rem 0.9rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.05s ease;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0b1120;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: #0ea5e9;
+    }
+
+    .btn-small {
+      padding: 0.35rem 0.6rem;
+      font-size: 0.8rem;
+      border-radius: 0.4rem;
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--muted);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(30, 64, 175, 0.4);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.9);
+      color: #0b1120;
+    }
+
+    .btn-danger:hover {
+      background: rgba(248, 113, 113, 0.95);
+    }
+
+    .controls-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .summary {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .summary strong {
+      color: var(--accent);
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 0.6rem;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    thead {
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    th,
+    td {
+      padding: 0.55rem 0.55rem;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      font-weight: 600;
+      color: var(--muted);
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    tbody tr:nth-child(odd) {
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(15, 23, 42, 0.65);
+    }
+
+    tbody tr:hover {
+      background: var(--accent-soft);
+    }
+
+    .score-cell {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+
+    .player-cell {
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .actions-cell {
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 0.85rem 0.85rem;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+      }
+
+      .controls-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      th:nth-child(3),
+      td:nth-child(3) {
+        display: none; /* hide notes column on very small screens */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <h1>Score Keeper</h1>
+        <div class="tagline">Add players and tap buttons to keep scores.</div>
+      </div>
+      <button class="btn-ghost btn-small" id="clear-all">
+        Clear all
+      </button>
+    </header>
+
+    <section class="card">
+      <form id="player-form">
+        <input
+          type="text"
+          id="player-name"
+          placeholder="Player name"
+          required
+        />
+        <input
+          type="text"
+          id="player-notes"
+          placeholder="Optional notes (army, team, etc.)"
+        />
+        <button type="submit" class="btn-primary">Add player</button>
+      </form>
+
+      <div class="controls-row">
+        <div class="summary" id="summary">
+          No players yet.
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Player</th>
+              <th>Notes</th>
+              <th>Score</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="player-table-body">
+            <!-- rows injected here -->
+          </tbody>
+        </table>
+        <div class="empty-state" id="empty-state">
+          Add a player above to start tracking scores.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "simple-scorekeeper-v1";
+
+    let players = [];
+
+    function loadState() {
+      const raw = localStorage.getItem(STORAGE_KEY); // localStorage pattern.[web:14][web:17]
+      if (!raw) {
+        players = [];
+        return;
+      }
+      try {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          players = parsed;
+        } else {
+          players = [];
+        }
+      } catch (e) {
+        players = [];
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(players)); // saving table to localStorage.[web:14][web:17]
+    }
+
+    function render() {
+      const tbody = document.getElementById("player-table-body");
+      const emptyState = document.getElementById("empty-state");
+      const summaryEl = document.getElementById("summary");
+
+      tbody.innerHTML = "";
+
+      if (players.length === 0) {
+        emptyState.style.display = "block";
+        summaryEl.textContent = "No players yet.";
+        return;
+      } else {
+        emptyState.style.display = "none";
+      }
+
+      let totalScore = 0;
+      players.forEach((p, idx) => {
+        totalScore += p.score;
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td class="player-cell">${p.name}</td>
+          <td>${p.notes || ""}</td>
+          <td class="score-cell">${p.score}</td>
+          <td class="actions-cell">
+            <button class="btn-small btn-ghost" data-action="inc" data-id="${p.id}">+1</button>
+            <button class="btn-small btn-ghost" data-action="dec" data-id="${p.id}">-1</button>
+            <button class="btn-small btn-ghost" data-action="reset" data-id="${p.id}">Reset</button>
+            <button class="btn-small btn-danger" data-action="delete" data-id="${p.id}">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      summaryEl.innerHTML = `
+        <span><strong>${players.length}</strong> players</span>
+        &nbsp;•&nbsp;
+        <span>Total score <strong>${totalScore}</strong></span>
+      `;
+    }
+
+    function addPlayer(name, notes) {
+      players.push({
+        id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
+        name: name.trim(),
+        notes: notes.trim(),
+        score: 0,
+      });
+      saveState();
+      render();
+    }
+
+    function updateScore(id, delta) {
+      const p = players.find((x) => x.id === id);
+      if (!p) return;
+      p.score += delta;
+      saveState();
+      render();
+    }
+
+    function resetScore(id) {
+      const p = players.find((x) => x.id === id);
+      if (!p) return;
+      p.score = 0;
+      saveState();
+      render();
+    }
+
+    function deletePlayer(id) {
+      players = players.filter((x) => x.id !== id); // row deletion approach.[web:18]
+      saveState();
+      render();
+    }
+
+    document
+      .getElementById("player-form")
+      .addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nameInput = document.getElementById("player-name");
+        const notesInput = document.getElementById("player-notes");
+        const name = nameInput.value;
+        const notes = notesInput.value;
+
+        if (!name.trim()) return;
+
+        addPlayer(name, notes);
+        nameInput.value = "";
+        notesInput.value = "";
+        nameInput.focus();
+      });
+
+    document
+      .getElementById("player-table-body")
+      .addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+        if (!action || !id) return;
+
+        switch (action) {
+          case "inc":
+            updateScore(id, 1);
+            break;
+          case "dec":
+            updateScore(id, -1);
+            break;
+          case "reset":
+            resetScore(id);
+            break;
+          case "delete":
+            deletePlayer(id);
+            break;
+        }
+      });
+
+    document
+      .getElementById("clear-all")
+      .addEventListener("click", () => {
+        if (!confirm("Clear all players and scores?")) return;
+        players = [];
+        saveState();
+        render();
+      });
+
+    loadState();
+    render();
+  </script>
+</body>
+</html>
